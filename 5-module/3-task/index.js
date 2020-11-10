@@ -6,6 +6,7 @@ function initCarousel() {
   let countClick = 0
 
   leftBtn.style.display = 'none'
+
   rightBtn.addEventListener('click', () => {
     countClick = ++countClick
     carusel.style.transform = `translateX(-${caruselWidth*countClick}px)`
