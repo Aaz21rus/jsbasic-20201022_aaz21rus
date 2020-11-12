@@ -3,29 +3,28 @@ function initCarousel() {
   const caruselWidth = carusel.offsetWidth
   const rightBtn = document.querySelector('.carousel__arrow_right')
   const leftBtn = document.querySelector('.carousel__arrow_left')
+  const slide = document.querySelectorAll('.carousel__slide').length - 1
   let countClick = 0
 
   leftBtn.style.display = 'none'
 
-  rightBtn.addEventListener('click', () => {
-    countClick = ++countClick
+  function move(count, btn) {
     carusel.style.transform = `translateX(-${caruselWidth*countClick}px)`
-    if(countClick === 3) {
-      rightBtn.style.display = 'none'
+    if(countClick === count) {
+      btn.style.display = 'none'
     } else {
       rightBtn.style.display = ''
       leftBtn.style.display = ''
     }
+  }
+
+  rightBtn.addEventListener('click', () => {
+    countClick = ++countClick
+    move(slide, rightBtn)
   })
 
   leftBtn.addEventListener('click', () => {
     countClick = --countClick
-    carusel.style.transform = `translateX(-${caruselWidth*(countClick)}px)`
-    if(countClick === 0) {
-      leftBtn.style.display = 'none'
-    } else {
-      leftBtn.style.display = ''
-      rightBtn.style.display = ''
-    }
+    move(0, leftBtn)
   })
 }
