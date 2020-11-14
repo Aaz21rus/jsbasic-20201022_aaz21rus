@@ -58,8 +58,9 @@ class Row {
 
 export default class UserTable {
   constructor(rows) {
+    this.rows = {}
     for (let i in rows) {
-      this[i] = new Row(rows[i])
+      this.rows[i] = new Row(rows[i])
     }
     this.elem = document.createElement('TABLE')
     this.elem.insertAdjacentHTML('afterbegin', `
@@ -78,12 +79,9 @@ export default class UserTable {
     `)
   }
   renderRow() {
-    // Object.keys(this).forEach( item => {
-    //   return this[item].render()
-    // })
-    for ( const i of Object.keys(this)) {
-      return this[i].render()
-      this[i].render()
+    for (const i of Object.keys(this.rows)) {
+      // console.log(this.rows[i].render())
+      this.rows[i].render()
     }
   }
 }
