@@ -36,7 +36,7 @@ class Row {
     this.city = obj.city;
   }
   onClick = function(event) {
-    console.log(event.target);
+    event.target.closest('tr').remove();
   }
   render() {
     this.elem = document.createElement('TR');
@@ -70,7 +70,7 @@ export default class UserTable {
         </tr>
       </thead>
     `);
-    this.renderRow()
+    this.renderRow();
   }
   renderRow() {
     this.elem2 = document.createElement('TBODY');
