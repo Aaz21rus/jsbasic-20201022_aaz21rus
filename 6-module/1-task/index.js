@@ -39,15 +39,14 @@ class Row {
     console.log(event.target);
   }
   render() {
-    this.elem = `
-      <tr>
+    this.elem = document.createElement('TR')
+    this.elem.innerHTML = `
         <td>${this.name}</td>
         <td>${this.age}</td>
         <td>${this.salary}</td>
         <td>${this.city}</td>
         <td><button>X</button></td>
-      </tr>
-    `;
+      `
     this.elem.querySelector('button').addEventListener('click', this.onClick);
     return this.elem;
   }
@@ -76,12 +75,13 @@ export default class UserTable {
     `);
   }
   renderRow() {
-    let usersTable = '';
+    // let usersTable = '';
     for (const i of Object.keys(this.rows)) {
-      usersTable += this.rows[i].render();
+      // usersTable +=
+      console.log(this.rows[i].render())
     }
 
-    return usersTable;
+    // return usersTable;
   }
 }
 
