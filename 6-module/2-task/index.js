@@ -18,10 +18,10 @@ export default class ProductCard {
           </button>
       </div>
     `)
-    this.clickBtn(product)
+    this.clickBtn()
   }
 
-  clickBtn(product) {
+  clickBtn() {
     this.elem.querySelector('.card__button').addEventListener('click', () => {
       this.event = new CustomEvent("product-add", {
         detail: this.product.id,
