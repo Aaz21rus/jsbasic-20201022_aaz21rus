@@ -36,9 +36,10 @@ class Row {
     this.city = obj.city;
   }
   onClick = function(event) {
-    console.log(event.target);
+    event.target.closest('tr').remove();
   }
   render() {
+<<<<<<< HEAD
     this.elem = document.createElement('TR')
     this.elem.innerHTML = `
         <td>${this.name}</td>
@@ -47,6 +48,16 @@ class Row {
         <td>${this.city}</td>
         <td><button>X</button></td>
       `
+=======
+    this.elem = document.createElement('TR');
+    this.elem.insertAdjacentHTML("afterbegin", `
+      <td>${this.name}</td>
+      <td>${this.age}</td>
+      <td>${this.salary}</td>
+      <td>${this.city}</td>
+      <td><button>X</button></td>
+    `);
+>>>>>>> 971150fa12711e30d3b5523a20dd5ea63250e12e
     this.elem.querySelector('button').addEventListener('click', this.onClick);
     return this.elem;
   }
@@ -69,19 +80,15 @@ export default class UserTable {
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        ${this.renderRow()}
-      </tbody>
     `);
+    this.renderRow();
   }
   renderRow() {
-    // let usersTable = '';
+    this.elem2 = document.createElement('TBODY');
     for (const i of Object.keys(this.rows)) {
-      // usersTable +=
-      console.log(typeof (this.rows[i].render()))
+      this.elem2.append(this.rows[i].render());
     }
-
-    // return usersTable;
+    this.elem.append(this.elem2);
   }
 }
 
