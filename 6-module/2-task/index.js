@@ -2,9 +2,11 @@ import createElement from '../../assets/lib/create-element.js';
 
 export default class ProductCard {
   constructor(product) {
+    this.product = product
     this.elem = document.createElement('DIV')
     this.elem.classList.add('card')
-    this.elem.insertAdjacentHTML('afterbegin',`
+    this.elem.insertAdjacentHTML('afterbegin',
+    `
       <div class="card__top">
           <img src="/assets/images/products/${product.image}" class="card__image" alt="product">
           <span class="card__price">€${product.price.toFixed(2)}</span>
@@ -15,23 +17,19 @@ export default class ProductCard {
               <img src="/assets/images/icons/plus-icon.svg" alt="icon">
           </button>
       </div>
-      ${clickBtn()}
     `)
+    this.clickBtn(product)
+  }
 
-    function clickBtn() {
-      console.log(document.querySelector('.card'));
-      // this.elem.querySelector('card__button').addEventListener('click', () => {
-      //   this.elem.querySelector('.card').classList.add('product-add')
-      // })
-    }
 
+  clickBtn(product) {
+    this.elem.querySelector('.card__button').addEventListener('click', () => {
+      this.event = new CustomEvent("product-add", {
+        detail: this.product.id,
+        bubbles: true
+      })
+      this.elem.dispatchEvent(this.event)
+    })
+    console.log(this);
   }
 }
-
-// let card = new ProductCard({
-//   name: "Laab kai chicken salad",
-//   price: 10,
-//   category: "salads",
-//   image: "laab_kai_chicken_salad.png",
-//   id: "laab-kai-chicken-salad"
-// });
