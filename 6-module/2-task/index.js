@@ -21,7 +21,6 @@ export default class ProductCard {
     this.clickBtn(product)
   }
 
-
   clickBtn(product) {
     this.elem.querySelector('.card__button').addEventListener('click', () => {
       this.event = new CustomEvent("product-add", {
@@ -30,6 +29,5 @@ export default class ProductCard {
       })
       this.elem.dispatchEvent(this.event)
     })
-    console.log(this);
   }
 }
