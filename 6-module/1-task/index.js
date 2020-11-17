@@ -78,7 +78,7 @@ export default class UserTable {
     // let usersTable = '';
     for (const i of Object.keys(this.rows)) {
       // usersTable +=
-      console.log(this.rows[i].render())
+      console.log(typeof (this.rows[i].render()))
     }
 
     // return usersTable;
