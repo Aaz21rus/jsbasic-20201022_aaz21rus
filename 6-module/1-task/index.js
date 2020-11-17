@@ -39,16 +39,6 @@ class Row {
     event.target.closest('tr').remove();
   }
   render() {
-<<<<<<< HEAD
-    this.elem = document.createElement('TR')
-    this.elem.innerHTML = `
-        <td>${this.name}</td>
-        <td>${this.age}</td>
-        <td>${this.salary}</td>
-        <td>${this.city}</td>
-        <td><button>X</button></td>
-      `
-=======
     this.elem = document.createElement('TR');
     this.elem.insertAdjacentHTML("afterbegin", `
       <td>${this.name}</td>
@@ -57,7 +47,6 @@ class Row {
       <td>${this.city}</td>
       <td><button>X</button></td>
     `);
->>>>>>> 971150fa12711e30d3b5523a20dd5ea63250e12e
     this.elem.querySelector('button').addEventListener('click', this.onClick);
     return this.elem;
   }
