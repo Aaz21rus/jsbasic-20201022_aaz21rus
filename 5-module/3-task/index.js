@@ -10,7 +10,6 @@ function initCarousel() {
 
   function move(count, btn) {
     carusel.style.transform = `translateX(-${caruselWidth*countClick}px)`
-    // (countClick === count) ? btn.style.display = 'none' : rightBtn.style.display = '', leftBtn.style.display = ''
     if(countClick === count) {
       btn.style.display = 'none'
     } else {
