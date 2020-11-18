@@ -1,4 +1,5 @@
 import createElement from '../../assets/lib/create-element.js';
+// класс создающий слайд карусели
 class Slider {
   constructor(slide) {
     this.name = slide.name
@@ -20,7 +21,7 @@ class Slider {
     `)
     this.clickBtn()
   }
-
+  // создание кастомного события при нажатие на кнопку +
   clickBtn() {
     this.slideElem.querySelector('.carousel__button').addEventListener('click', () => {
       this.event = new CustomEvent("product-add", {
@@ -50,12 +51,12 @@ export default class Carousel {
       const slide = new Slider(slides[i])
       this.elem.querySelector('.carousel__inner').append(slide.slideElem)
     }
-    this.countClick = 0
+    this.countClick = 0 //перееменная хранящаю кол-во нажатия кнопки
     this.initCarousel()
     this.rightBtn = this.elem.querySelector('.carousel__arrow_right')
     this.leftBtn = this.elem.querySelector('.carousel__arrow_left')
   }
-
+  // метод при нажатии на кнопку вправо или влево
   move(count, btn) {
     const carousel = this.elem.querySelector('.carousel__inner')
     const carouselWidth = carousel.offsetWidth
@@ -67,7 +68,7 @@ export default class Carousel {
       this.leftBtn.style.display = ''
     }
   }
-
+  // метод заускающие движение карусели
   initCarousel() {
     this.rightBtn = this.elem.querySelector('.carousel__arrow_right')
     this.leftBtn = this.elem.querySelector('.carousel__arrow_left')
