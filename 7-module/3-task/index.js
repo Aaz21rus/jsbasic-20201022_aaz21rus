@@ -23,7 +23,6 @@ export default class StepSlider {
   renderStep(steps) {
     const stepS = this.elem.querySelector('.slider__steps')
     const span = document.createElement('SPAN')
-    // console.log(stepS,span);
     for(let i = 0; i < steps; i++) {
       stepS.innerHTML += '<span></span>'
     }
