@@ -20,6 +20,7 @@ export default class StepSlider {
     this.elem.querySelectorAll('span')[this.value].classList.add('slider__step-active')
     this.sliderClick(steps)
   }
+
   renderStep(steps) {
     const stepS = this.elem.querySelector('.slider__steps')
     const span = document.createElement('SPAN')
@@ -27,78 +28,78 @@ export default class StepSlider {
       stepS.innerHTML += '<span></span>'
     }
   }
-  sliderClick(steps) {
+
+  sliderClick(steps,customEv) {
     const thumb = this.elem.querySelector('.slider__thumb')
     const sliderVal = this.elem.querySelector('.slider__value')
     const sliderProg = this.elem.querySelector('.slider__progress')
     const span = Array.from(this.elem.querySelectorAll('span'))
 
-    this.elem.addEventListener('pointerdown', (event) => {
+    thumb.onpointerdown = function(e) {
       thumb.ondragstart = () => false
-      let left =  event.clientX - this.elem.getBoundingClientRect().left
-      let leftRelative = left / this.elem.offsetWidth;
-      
+      const slider = document.querySelector('.slider')
 
-      if (leftRelative < 0) {
-        leftRelative = 0
+      function onMouseMove(e) {
+        moveAt(e.clientX, slider)
+        document.querySelector('.slider').classList.add('slider_dragging')
       }
 
-      if (leftRelative > 1) {
-        leftRelative = 1
+      document.addEventListener('pointermove', onMouseMove)
+
+      function moveAt(x,target) {
+        let left =  x - target.getBoundingClientRect().left
+        let leftRelative = left / target.offsetWidth;
+
+
+        if (leftRelative < 0) {
+          leftRelative = 0
+        }
+
+        if (leftRelative > 1) {
+          leftRelative = 1
+        }
+
+        let leftPercents = leftRelative * 100;
+        thumb.style.left = `${leftPercents}%`;
+        sliderProg.style.width = `${leftPercents}%`;
+        let segments = steps - 1
+        let approximateValue = leftRelative * segments
+        let value = Math.round(approximateValue)
+        sliderVal.textContent = value
       }
 
-      let leftPercents = leftRelative * 100;
-      thumb.style.left = `${leftPercents}%`;
-      sliderProg.style.width = `${leftPercents}%`;
-      let segments = steps - 1
-      let approximateValue = leftRelative * segments
-      let value = Math.round(approximateValue)
-      sliderVal.textContent = value
-      // console.log(value);
-    })
+      thumb.onpointerup = () => {
+        document.removeEventListener('pointermove', onMouseMove);
+        thumb.onmouseup = null;
+        customEv
+      }
+    }
 
-    this.elem.addEventListener('pointermove', (event) => {
-      thumb.ondragstart = () => false
-      let left =  event.clientX - this.elem.getBoundingClientRect().left
+    this.elem.addEventListener('click', (event) => {
+      let left = event.clientX - this.elem.getBoundingClientRect().left;
       let leftRelative = left / this.elem.offsetWidth;
-      let leftPercents = leftRelative * 100;
-      thumb.style.left = `${leftPercents}%`;
-      sliderProg.style.width = `${leftPercents}%`;
-      let segments = steps - 1
-      let approximateValue = leftRelative * segments
-      let value = Math.round(approximateValue)
+      let segments = steps - 1;
+      let approximateValue = leftRelative * segments;
+      let value = Math.round(approximateValue);
+      let valuePercents = value / segments * 100;
+      thumb.style = `left: ${valuePercents}%;`
       sliderVal.textContent = value
+      sliderProg.style = `width: ${valuePercents}%;`
+      span.forEach(item => item.classList.remove('slider__step-active'))
+      span[value+1].classList.add('slider__step-active')
+
+      this.sliderChange = new CustomEvent('slider-change', {
+        detail: this.value,
+        bubbles: true
+      })
+      this.elem.dispatchEvent(this.sliderChange)
     })
-    
-    this.elem.addEventListener('pointerup', (event) => {
-      thumb.ondragstart = () => false
-      let left =  event.clientX - this.elem.getBoundingClientRect().left
-      let leftRelative = left / this.elem.offsetWidth;
-      let leftPercents = leftRelative * 100;
-      thumb.style.left = `${leftPercents}%`;
-      sliderProg.style.width = `${leftPercents}%`;
+  }
+  customEv(this) {
+    this.sliderChange = new CustomEvent('slider-change', {
+      detail: this.value,
+      bubbles: true
     })
-
-    
-
-    // this.elem.addEventListener('click', (event) => {
-    //   let left = event.clientX - this.elem.getBoundingClientRect().left;
-    //   let leftRelative = left / this.elem.offsetWidth;
-    //   let segments = steps - 1;
-    //   let approximateValue = leftRelative * segments;
-    //   let value = Math.round(approximateValue);
-    //   let valuePercents = value / segments * 100;
-    //   thumb.style = `left: ${valuePercents}%;`
-    //   sliderVal.textContent = value
-    //   sliderProg.style = `width: ${valuePercents}%;`
-    //   span.forEach(item => item.classList.remove('slider__step-active'))
-    //   span[value+1].classList.add('slider__step-active')
-
-    //   this.sliderChange = new CustomEvent('slider-change', {
-    //     detail: this.value,
-    //     bubbles: true
-    //   })
-    //   this.elem.dispatchEvent(this.sliderChange)
-    // })
+    this.elem.dispatchEvent(this.sliderChange)
   }
 }
