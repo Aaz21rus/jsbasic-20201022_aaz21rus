@@ -17,7 +17,7 @@ export default class StepSlider {
       <div class="slider__steps"></div>
     `)
     this.renderStep(steps)
-    this.elem.querySelectorAll('span')[this.value].classList.add('slider__step-active')
+    this.elem.querySelectorAll('span')[this.value+2].classList.add('slider__step-active')
     this.sliderClick(steps)
   }
 
@@ -29,13 +29,13 @@ export default class StepSlider {
     }
   }
 
-  sliderClick(steps,customEv) {
+  sliderClick(steps) {
     const thumb = this.elem.querySelector('.slider__thumb')
     const sliderVal = this.elem.querySelector('.slider__value')
     const sliderProg = this.elem.querySelector('.slider__progress')
     const span = Array.from(this.elem.querySelectorAll('span'))
 
-    thumb.onpointerdown = function(e) {
+    thumb.onpointerdown = function() {
       thumb.ondragstart = () => false
       const slider = document.querySelector('.slider')
 
@@ -66,12 +66,26 @@ export default class StepSlider {
         let approximateValue = leftRelative * segments
         let value = Math.round(approximateValue)
         sliderVal.textContent = value
+        // span.forEach(item => item.classList.remove('slider__step-active'))
+        // if(value < segments) {
+        //   span[value+2].classList.add('slider__step-active')
+        // }
+        // span[value+1].classList.remove('slider__step-active')
+        // span[value+2].classList.add('slider__step-active')
       }
 
-      thumb.onpointerup = () => {
+      thumb.onpointerup = (sliderVal, steps) => {
         document.removeEventListener('pointermove', onMouseMove);
         thumb.onmouseup = null;
-        customEv
+        if(sliderVal < steps) {
+          span[sliderVal+2].classList.add('slider__step-active')
+        }
+        span[sliderVal+1].classList.remove('slider__step-active')
+        this.sliderChange = new CustomEvent('slider-change', {
+          detail: sliderVal,
+          bubbles: true
+        })
+        this.dispatchEvent(this.sliderChange)
       }
     }
 
@@ -86,7 +100,10 @@ export default class StepSlider {
       sliderVal.textContent = value
       sliderProg.style = `width: ${valuePercents}%;`
       span.forEach(item => item.classList.remove('slider__step-active'))
-      span[value+1].classList.add('slider__step-active')
+      // if(span[value+1] < segments) {
+      //   span[value+1].classList.add('slider__step-active')
+      // }
+      // span[value+1].classList.add('slider__step-active')
 
       this.sliderChange = new CustomEvent('slider-change', {
         detail: this.value,
@@ -95,7 +112,8 @@ export default class StepSlider {
       this.elem.dispatchEvent(this.sliderChange)
     })
   }
-  customEv(this) {
+
+  customEv() {
     this.sliderChange = new CustomEvent('slider-change', {
       detail: this.value,
       bubbles: true

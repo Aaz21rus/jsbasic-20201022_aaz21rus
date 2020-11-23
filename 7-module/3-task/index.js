@@ -26,6 +26,7 @@ export default class StepSlider {
     for(let i = 0; i < steps; i++) {
       stepS.innerHTML += '<span></span>'
     }
+    console.log(stepS)
   }
   sliderClick(steps) {
     const thumb = this.elem.querySelector('.slider__thumb')
