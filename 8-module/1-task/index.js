@@ -65,15 +65,6 @@ export default class CartIcon {
         left: '',
         zIndex: ''
       });
-      // if (document.documentElement.clientWidth <= 767) {
-      //   Object.assign(this.elem.style, {
-      //     position: '',
-      //     top: '',
-      //     left: '',
-      //     zIndex: ''
-      //   });
-      // }
     }
-    // console.log('updatePosition');
   }
 }
