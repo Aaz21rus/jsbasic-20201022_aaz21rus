@@ -83,21 +83,7 @@ export default class StepSlider {
       thumb.onpointerup = (sliderVal, steps) => {
         document.removeEventListener('pointermove', onMouseMove);
         thumb.onmouseup = null;
-
-        // generate Custom Evrnt for pointerup
-        this.sliderChange = new CustomEvent('slider-change', {
-          detail: sliderVal,
-          bubbles: true
-        })
-        this.dispatchEvent(this.sliderChange)
       }
-
-      // generate Custom Event for pointerdown
-      this.sliderChange = new CustomEvent('slider-change', {
-        detail: sliderVal,
-        bubbles: true
-      })
-      this.dispatchEvent(this.sliderChange)
     }
 
     this.elem.addEventListener('click', (event) => {
@@ -115,20 +101,11 @@ export default class StepSlider {
         span[value+2].classList.add('slider__step-active')
       }
 
-      this.sliderChange = new CustomEvent('slider-change', {
+      this.elem = new CustomEvent('slider-change', {
         detail: this.value,
         bubbles: true
       })
-      this.elem.dispatchEvent(this.sliderChange)
+      this.elem.dispatchEvent(this.elem.sliderChange)
     })
-  }
-
-  // generate Custom Event for click
-  customEv() {
-    this.sliderChange = new CustomEvent('slider-change', {
-      detail: this.value,
-      bubbles: true
-    })
-    this.elem.dispatchEvent(this.sliderChange)
   }
 }

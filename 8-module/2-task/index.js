@@ -34,20 +34,24 @@ export default class ProductGrid {
         </div>
         </div>
       `)
-      this.filters[product.id] = {}
+      this.renderProduct = {}
+      this.renderProduct[product.id] = {}
       const filterKey = Object.keys(product)
-      console.log(filterKey);
       filterKey.forEach(item => {
         if(item === 'nuts') {
-          this.filters[product.id].noNuts = product[item]
+          this.renderProduct[product.id].noNuts = product[item]
         }
         if (item === 'vegeterian') {
-          this.filters[product.id].vegeterianOnly = product[item]
+          this.renderProduct[product.id].vegeterianOnly = product[item]
+        }
+        if (item === 'category') {
+          this.renderProduct[product.id].category = product[item]
         }
         if(item === 'spiciness') {
-          this.filters[product.id].maxSpiciness = product[item]
+          this.renderProduct[product.id].maxSpiciness = product[item]
         }
       })
+      console.log(this.renderProduct);
       this.clickBtn(product)
     }
   }
@@ -63,10 +67,14 @@ export default class ProductGrid {
   }
 
   updateFilter(filters) {
+    if(!filters) {
+      return
+    } 
+    this.filters[Object.keys(filters)] = Object.values(filters)[0]
     console.log(this.filters);
+
     for(let cat in this.filters) {
-      // console.log(cat);
-      // console.log(Object.keys(cat))
+
     }
   }
 }
