@@ -34,21 +34,29 @@ export default class StepSlider {
     const sliderVal = this.elem.querySelector('.slider__value')
     const sliderProg = this.elem.querySelector('.slider__progress')
     const span = Array.from(this.elem.querySelectorAll('span'))
+    const elem = this.elem
 
     thumb.onpointerdown = function(e) {
       thumb.ondragstart = () => false
       const slider = document.querySelector('.slider')
+      elem.dispatchEvent(
+        new CustomEvent('slider-change', {
+          detail: sliderVal.innerHTML,
+          bubbles: true
+        })
+      );
 
       function onMouseMove(e) {
         moveAt(e.clientX, slider)
         document.querySelector('.slider').classList.add('slider_dragging')
 
         // generate Custom Event for pointermove
-        this.sliderChange = new CustomEvent('slider-change', {
-          detail: sliderVal,
-          bubbles: true
-        })
-        this.dispatchEvent(this.sliderChange)
+        elem.dispatchEvent(
+          new CustomEvent('slider-change', {
+            detail: sliderVal.innerHTML,
+            bubbles: true
+          })
+        );
       }
 
       document.addEventListener('pointermove', onMouseMove)
@@ -101,11 +109,17 @@ export default class StepSlider {
         span[value+2].classList.add('slider__step-active')
       }
 
-      this.elem = new CustomEvent('slider-change', {
-        detail: this.value,
-        bubbles: true
-      })
-      this.elem.dispatchEvent(this.elem.sliderChange)
+      this.elem.dispatchEvent(
+        new CustomEvent('slider-change', {
+          detail: this.value,
+          bubbles: true
+        })
+      );
+      // this.elem = new CustomEvent('slider-change', {
+      //   detail: this.value,
+      //   bubbles: true
+      // })
+      // this.elem.dispatchEvent(this.elem.sliderChange)
     })
   }
 }
