@@ -43,7 +43,7 @@ export default class StepSlider {
         moveAt(e.clientX, slider)
         document.querySelector('.slider').classList.add('slider_dragging')
 
-        // generate Custom Evrnt for pointermove
+        // generate Custom Event for pointermove
         this.sliderChange = new CustomEvent('slider-change', {
           detail: sliderVal,
           bubbles: true
@@ -92,7 +92,7 @@ export default class StepSlider {
         this.dispatchEvent(this.sliderChange)
       }
 
-      // generate Custom Evrnt for pointerdown
+      // generate Custom Event for pointerdown
       this.sliderChange = new CustomEvent('slider-change', {
         detail: sliderVal,
         bubbles: true
@@ -114,7 +114,7 @@ export default class StepSlider {
       if(value+1 <= segments) {
         span[value+2].classList.add('slider__step-active')
       }
-      
+
       this.sliderChange = new CustomEvent('slider-change', {
         detail: this.value,
         bubbles: true
@@ -123,7 +123,7 @@ export default class StepSlider {
     })
   }
 
-  // generate Custom Evrnt for click
+  // generate Custom Event for click
   customEv() {
     this.sliderChange = new CustomEvent('slider-change', {
       detail: this.value,
