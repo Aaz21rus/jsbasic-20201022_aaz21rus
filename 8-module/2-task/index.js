@@ -69,7 +69,7 @@ export default class ProductGrid {
   updateFilter(filters) {
     if(!filters) {
       return
-    } 
+    }
     this.filters[Object.keys(filters)] = Object.values(filters)[0]
     console.log(this.filters);
 
