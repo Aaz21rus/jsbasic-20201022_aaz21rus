@@ -19,6 +19,7 @@ export default class ProductGrid {
   }
 
   renderCarts() {
+    this.renderProduct = {}
     for(const product of this.products) {
       this.elem.querySelector('.products-grid__inner').insertAdjacentHTML('afterbegin',`
         <div class="card">
@@ -34,7 +35,6 @@ export default class ProductGrid {
         </div>
         </div>
       `)
-      this.renderProduct = {}
       this.renderProduct[product.id] = {}
       const filterKey = Object.keys(product)
       filterKey.forEach(item => {
@@ -52,7 +52,7 @@ export default class ProductGrid {
         }
       })
       //объект в котором хранятся св-ва для фильтрации
-      console.log(this.renderProduct);
+      // console.log(this.renderProduct);
       this.clickBtn(product)
     }
   }
@@ -73,5 +73,6 @@ export default class ProductGrid {
     }
     this.filters[Object.keys(filters)] = Object.values(filters)[0]
     console.log(this.filters);
+    console.log(this);
   }
 }
