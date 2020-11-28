@@ -5,8 +5,6 @@ export default class CartIcon {
     this.render();
 
     this.addEventListeners();
-
-    this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
   }
 
   render() {
@@ -43,6 +41,9 @@ export default class CartIcon {
   }
 
   updatePosition() {
+    if (!this.initialTopCoord) {
+      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+    }
     if (window.pageYOffset > this.initialTopCoord) {
       // плавающая корзина
       let leftIndent = Math.min(

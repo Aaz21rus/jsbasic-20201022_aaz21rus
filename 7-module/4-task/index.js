@@ -41,7 +41,7 @@ export default class StepSlider {
       const slider = document.querySelector('.slider')
       elem.dispatchEvent(
         new CustomEvent('slider-change', {
-          detail: sliderVal.innerHTML,
+          detail: +sliderVal.innerHTML,
           bubbles: true
         })
       );
@@ -53,7 +53,7 @@ export default class StepSlider {
         // generate Custom Event for pointermove
         elem.dispatchEvent(
           new CustomEvent('slider-change', {
-            detail: sliderVal.innerHTML,
+            detail: +sliderVal.innerHTML,
             bubbles: true
           })
         );
@@ -62,10 +62,8 @@ export default class StepSlider {
       document.addEventListener('pointermove', onMouseMove)
 
       function moveAt(x,target) {
-        console.log(e);
         let left =  x - target.getBoundingClientRect().left
         let leftRelative = left / target.offsetWidth;
-
 
         if (leftRelative < 0) {
           leftRelative = 0
@@ -88,9 +86,15 @@ export default class StepSlider {
         }
       }
 
-      thumb.onpointerup = (sliderVal, steps) => {
+      thumb.onpointerup = () => {
         document.removeEventListener('pointermove', onMouseMove);
         thumb.onmouseup = null;
+        elem.dispatchEvent(
+          new CustomEvent('slider-change', {
+            detail: +sliderVal.innerHTML,
+            bubbles: true
+          })
+        );
       }
     }
 
@@ -111,15 +115,10 @@ export default class StepSlider {
 
       this.elem.dispatchEvent(
         new CustomEvent('slider-change', {
-          detail: this.value,
+          detail: +sliderVal.innerHTML,
           bubbles: true
         })
-      );
-      // this.elem = new CustomEvent('slider-change', {
-      //   detail: this.value,
-      //   bubbles: true
-      // })
-      // this.elem.dispatchEvent(this.elem.sliderChange)
+      )
     })
   }
 }
