@@ -72,9 +72,5 @@ export default class ProductGrid {
     }
     this.filters[Object.keys(filters)] = Object.values(filters)[0]
     console.log(this.filters);
-
-    for(let cat in this.filters) {
-
-    }
   }
 }
