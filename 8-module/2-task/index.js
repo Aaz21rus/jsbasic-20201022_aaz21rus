@@ -51,6 +51,7 @@ export default class ProductGrid {
           this.renderProduct[product.id].maxSpiciness = product[item]
         }
       })
+      //объект в котором хранятся св-ва для фильтрации
       console.log(this.renderProduct);
       this.clickBtn(product)
     }
@@ -65,7 +66,7 @@ export default class ProductGrid {
       this.elem.dispatchEvent(this.event)
     })
   }
-
+  // записываю в фильр - каегории по котрым нужно отфильтровывать
   updateFilter(filters) {
     if(!filters) {
       return
