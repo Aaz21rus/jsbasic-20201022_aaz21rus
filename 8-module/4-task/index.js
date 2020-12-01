@@ -13,19 +13,19 @@ export default class Cart {
   }
 
   addProduct(product) {
-    let cardItem = this.cardItems.find(item => item.product.id === product.id)
+    let cardItem = this.cartItems.find(item => item.product.id === product.id)
 
     if(!cardItem) {
       this.cartItem = {
         product,
         count: 1
       }
-      this.cartItems.push(cartItem)
+      this.cartItems.push(this.cartItem)
     } else {
       this.cartItem.count ++
     }
 
-    this.onProductUpdate(cartItem);
+    this.onProductUpdate(this.cartItem);
   }
 
   updateProductCount(productId, amount) {
@@ -111,7 +111,23 @@ export default class Cart {
   }
 
   renderModal() {
-    // ...ваш код
+    const modal = new Modal
+    modal.setTitle('Your order');
+    modal.open();
+    for (const product of this.cartItems) {
+      document.querySelector('.modal__body').append(this.renderProduct(product.product, product.count))
+    }
+    document.querySelector('.modal__body').append(this.renderOrderForm())
+
+    window.addEventListener('click', (e) => {
+      let button = e.target.closest('button')
+      // console.log(button.className);
+      if(!button) {
+        return
+      }
+      if(button.className === 'cart-counter__button_minus') {}
+      if(button.className === 'cart-counter__button_plus') {}
+    })
   }
 
   onProductUpdate(cartItem) {

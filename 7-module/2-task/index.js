@@ -16,9 +16,7 @@ export default class Modal {
               Вот сюда нужно добавлять заголовок
             </h3>
           </div>
-          <div class="modal__body">
-            A сюда нужно добавлять содержимое тела модального окна
-          </div>
+          <div class="modal__body"> </div>
         </div>
       </div>
     `
@@ -31,11 +29,9 @@ export default class Modal {
   }
   setTitle(title) {
     this.elem.querySelector('.modal__title').textContent = title
-    console.log(title);
   }
   setBody(element) {
     this.elem.querySelector('.modal__body').append(element)
-    console.log(typeof(element));
   }
   close() {
     this.elem.remove()
