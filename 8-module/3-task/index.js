@@ -6,16 +6,17 @@ export default class Cart {
   }
 
   addProduct(product) {
-    let cardItem = this.cardItems.find(item => item.product.id === product.id)
-
-    if(!cardItem) {
-      this.cartItem = {
+    let cartItem = this.cartItems.find(
+      item => item.product.id == product.id
+    );
+    if (!cartItem) {
+      cartItem = {
         product,
         count: 1
-      }
-      this.cartItems.push(cartItem)
+      };
+      this.cartItems.push(cartItem);
     } else {
-      this.cartItem.count ++
+      cartItem.count++;
     }
 
     this.onProductUpdate(cartItem);
@@ -29,12 +30,12 @@ export default class Cart {
     if (cartItem.count === 0) {
       this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
     }
+  }
 
-    onProductUpdate() {
-      // реализуем в следующей задаче
+  onProductUpdate() {
+    // реализуем в следующей задаче
 
-      this.cartIcon.update(this);
-    }
+    this.cartIcon.update(this);
   }
 
   isEmpty() {

@@ -37,11 +37,11 @@ export default class Cart {
       this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
     }
 
-    onProductUpdate() {
-      // реализуем в следующей задаче
+  }
+  onProductUpdate() {
+    // реализуем в следующей задаче
 
-      this.cartIcon.update(this);
-    }
+    this.cartIcon.update(this);
   }
 
   isEmpty() {
