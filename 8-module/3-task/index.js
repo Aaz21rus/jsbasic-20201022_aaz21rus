@@ -24,12 +24,20 @@ export default class Cart {
 
   updateProductCount(productId, amount) {
     let cartItem = this.cartItems.find(item => item.product.id == productId);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 111e3510614e99627921e538b163dfcf532c3b84
     cartItem.count += amount;
 
     if (cartItem.count === 0) {
       this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
     }
+<<<<<<< HEAD
+=======
+
+    this.onProductUpdate(cartItem);
+>>>>>>> 111e3510614e99627921e538b163dfcf532c3b84
   }
 
   onProductUpdate() {
@@ -50,7 +58,11 @@ export default class Cart {
     return this.cartItems.reduce(
       (sum, item) => sum + item.product.price * item.count,
       0
+<<<<<<< HEAD
     )
+=======
+    );
+>>>>>>> 111e3510614e99627921e538b163dfcf532c3b84
   }
 }
 

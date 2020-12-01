@@ -46,4 +46,5 @@ export default class ProductGrid {
   sub(ref) {
     return this.elem.querySelector(`.products-grid__${ref}`);
   }
+
 }
