@@ -130,6 +130,7 @@ export default class Cart {
         if (countProduct > 0) {
           button.nextElementSibling.textContent--
           this.updateProductCount(productId,-1)
+        }
       }
 
       if(button.className === 'cart-counter__button cart-counter__button_plus') {
