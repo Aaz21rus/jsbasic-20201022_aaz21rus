@@ -30,19 +30,19 @@ export default class Cart {
 
   updateProductCount(productId, amount) {
     let cartItem = this.cartItems.find(item => item.product.id == productId);
-
     cartItem.count += amount;
 
     if (cartItem.count === 0) {
       this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
     }
-
+    this.onProductUpdate(productId)
   }
-  onProductUpdate() {
-    // реализуем в следующей задаче
 
-    this.cartIcon.update(this);
-  }
+  // onProductUpdate() {
+  //   // реализуем в следующей задаче
+
+  //   this.cartIcon.update(this);
+  // }
 
   isEmpty() {
     return this.cartItems.length === 0;
@@ -121,17 +121,45 @@ export default class Cart {
 
     window.addEventListener('click', (e) => {
       let button = e.target.closest('button')
-      // console.log(button.className);
       if(!button) {
         return
       }
-      if(button.className === 'cart-counter__button_minus') {}
-      if(button.className === 'cart-counter__button_plus') {}
+      let productId = e.target.closest('.cart-product').dataset.productId
+      if(button.className === 'cart-counter__button cart-counter__button_minus') {
+        let countProduct = +button.nextElementSibling.textContent
+        if (countProduct > 0) {
+          button.nextElementSibling.textContent--
+          this.updateProductCount(productId,-1)
+      }
+
+      if(button.className === 'cart-counter__button cart-counter__button_plus') {
+        button.previousElementSibling.textContent++
+        this.updateProductCount(productId,1)
+      }
     })
   }
 
-  onProductUpdate(cartItem) {
-    // ...ваш код
+  onProductUpdate(cartId) {
+    const openModal = document.querySelector('body').className
+    if (openModal === 'is-modal-open') {
+      let productId = cartId
+      let modalBody = document.querySelector('.modal')
+      let button = modalBody.querySelector(`[data-product-id="${productId}"] button`)
+      let productCount = modalBody.querySelector(`[data-product-id="${productId}"] .cart-counter__count`);
+      let productPrice = modalBody.querySelector(`[data-product-id="${productId}"] .cart-product__price`);
+      let infoPrice = modalBody.querySelector(`.cart-buttons__info-price`);
+
+      // if(button.className === 'cart-counter__button cart-counter__button_minus') {
+      //   if (productCount.textContent > 0) {
+      //     productCount.textContent--
+      //   }
+      //   console.log(modalBody.querySelector(`[data-product-id="${productId}"]`));
+      // }
+
+      // if(button.className === 'cart-counter__button cart-counter__button_plus') {
+      //   productCount.textContent++
+      // }
+    }
 
     this.cartIcon.update(this);
   }
