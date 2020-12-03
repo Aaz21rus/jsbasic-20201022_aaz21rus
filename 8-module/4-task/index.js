@@ -138,6 +138,10 @@ export default class Cart {
         this.updateProductCount(productId,1)
       }
     })
+
+    window.addEventListener('submit', (e)=> {
+      this.onSubmit(e)
+    })
   }
 
   onProductUpdate(cartId) {
@@ -145,28 +149,25 @@ export default class Cart {
     if (openModal === 'is-modal-open') {
       let productId = cartId
       let modalBody = document.querySelector('.modal')
-      let button = modalBody.querySelector(`[data-product-id="${productId}"] button`)
+      let productItem = modalBody.querySelector(`[data-product-id="${productId}"]`)
       let productCount = modalBody.querySelector(`[data-product-id="${productId}"] .cart-counter__count`);
       let productPrice = modalBody.querySelector(`[data-product-id="${productId}"] .cart-product__price`);
       let infoPrice = modalBody.querySelector(`.cart-buttons__info-price`);
 
-      // if(button.className === 'cart-counter__button cart-counter__button_minus') {
-      //   if (productCount.textContent > 0) {
-      //     productCount.textContent--
-      //   }
-      //   console.log(modalBody.querySelector(`[data-product-id="${productId}"]`));
-      // }
-
-      // if(button.className === 'cart-counter__button cart-counter__button_plus') {
-      //   productCount.textContent++
-      // }
+      if (+productCount.textContent === 0) {
+        productItem.remove()
+      }
+      infoPrice.innerHTML = `€${this.getTotalPrice().toFixed(2)}`
     }
 
     this.cartIcon.update(this);
   }
 
   onSubmit(event) {
-    // ...ваш код
+    event.preventDefault()
+    let btnSubmit = document.querySelector(`[type="submit"]`)
+    btnSubmit.classList.add('is-loading')
+    console.log(btnSubmit);
   };
 
   addEventListeners() {

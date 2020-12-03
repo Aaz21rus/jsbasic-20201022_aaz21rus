@@ -21,9 +21,7 @@ export default class RibbonMenu {
       <button class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
         <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>
-
       <nav class="ribbon__inner"></nav>
-
       <button class="ribbon__arrow ribbon__arrow_right">
         <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>
