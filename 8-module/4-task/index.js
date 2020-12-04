@@ -35,7 +35,7 @@ export default class Cart {
     if (cartItem.count === 0) {
       this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
     }
-    this.onProductUpdate(productId)
+    this.onProductUpdate(productId, cartItem)
   }
 
   // onProductUpdate() {
@@ -114,18 +114,19 @@ export default class Cart {
     const modal = new Modal
     modal.setTitle('Your order');
     modal.open();
+    let modalBody = document.querySelector('.modal__body')
     for (const product of this.cartItems) {
-      document.querySelector('.modal__body').append(this.renderProduct(product.product, product.count))
+      modalBody.append(this.renderProduct(product.product, product.count))
     }
-    document.querySelector('.modal__body').append(this.renderOrderForm())
+    modalBody.append(this.renderOrderForm())
 
-    window.addEventListener('click', (e) => {
+    modalBody.addEventListener('click', (e) => {
       let button = e.target.closest('button')
       if(!button) {
         return
       }
-      let productId = e.target.closest('.cart-product').dataset.productId
       if(button.className === 'cart-counter__button cart-counter__button_minus') {
+        let productId = e.target.closest('.cart-product').dataset.productId
         let countProduct = +button.nextElementSibling.textContent
         if (countProduct > 0) {
           button.nextElementSibling.textContent--
@@ -134,17 +135,22 @@ export default class Cart {
       }
 
       if(button.className === 'cart-counter__button cart-counter__button_plus') {
+        let productId = e.target.closest('.cart-product').dataset.productId
         button.previousElementSibling.textContent++
         this.updateProductCount(productId,1)
       }
+      let productItem = document.querySelector('.cart-product')
+      if (!productItem) {
+        document.querySelector('.modal').closest('.container').remove()
+      }
     })
 
-    window.addEventListener('submit', (e)=> {
+    document.querySelector('.cart-form').addEventListener('submit', (e)=> {
       this.onSubmit(e)
     })
   }
 
-  onProductUpdate(cartId) {
+  onProductUpdate(cartId,cartItem) {
     const openModal = document.querySelector('body').className
     if (openModal === 'is-modal-open') {
       let productId = cartId
@@ -157,6 +163,10 @@ export default class Cart {
       if (+productCount.textContent === 0) {
         productItem.remove()
       }
+
+      let productSum = productCount.textContent * cartItem.product.price
+      productPrice.innerHTML = `€${productSum.toFixed(2)}`
+
       infoPrice.innerHTML = `€${this.getTotalPrice().toFixed(2)}`
     }
 
@@ -165,9 +175,26 @@ export default class Cart {
 
   onSubmit(event) {
     event.preventDefault()
-    let btnSubmit = document.querySelector(`[type="submit"]`)
-    btnSubmit.classList.add('is-loading')
-    console.log(btnSubmit);
+    let formCart = document.querySelector('.cart-form')
+    fetch('https://httpbin.org/post', {
+      method: 'POST',
+      body: new FormData(formCart)
+    }).then(response => {
+      if (response.status === 200) {
+        document.querySelector('.modal__title').textContent = 'Success!'
+        this.cartItems = []
+        document.querySelector('.modal__body').innerHTML = `
+          <div class="modal__body-inner">
+            <p>
+              Order successful! Your order is being cooked :) <br>
+              We’ll notify you about delivery time shortly.<br>
+              <img src="/assets/images/delivery.gif">
+            </p>
+          </div>
+        `
+      }
+      console.log(response);
+    })
   };
 
   addEventListeners() {
