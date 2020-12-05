@@ -38,12 +38,6 @@ export default class Cart {
     this.onProductUpdate(productId, cartItem)
   }
 
-  // onProductUpdate() {
-  //   // реализуем в следующей задаче
-
-  //   this.cartIcon.update(this);
-  // }
-
   isEmpty() {
     return this.cartItems.length === 0;
   }

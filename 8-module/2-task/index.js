@@ -19,7 +19,6 @@ export default class ProductGrid {
 
   renderContent() {
     this.sub('inner').innerHTML = '';
-
     for (let product of this.products) {
       if (this.filters.noNuts && product.nuts) {continue;}
 
