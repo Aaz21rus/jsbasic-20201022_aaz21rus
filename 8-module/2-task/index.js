@@ -20,6 +20,7 @@ export default class ProductGrid {
   renderContent() {
     this.sub('inner').innerHTML = '';
     for (let product of this.products) {
+      // console.log(this.filters.noNuts);
       if (this.filters.noNuts && product.nuts) {continue;}
 
       if (this.filters.vegeterianOnly && !product.vegeterian) {continue;}

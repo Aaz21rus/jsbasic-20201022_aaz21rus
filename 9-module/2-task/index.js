@@ -18,11 +18,11 @@ export default class Main {
   async render() {
     let products = await (await fetch('products.json')).json()
 
-    let cartIcon = new CartIcon();
+    this.cartIcon = new CartIcon();
     let cartIconHolder = document.querySelector('[data-cart-icon-holder]');
-    cartIconHolder.append(cartIcon.elem);
+    cartIconHolder.append(this.cartIcon.elem);
 
-    let cart = new Cart(cartIcon,products);
+    this.cart = new Cart(this.cartIcon,products);
 
     document.addEventListener('click', (event) => {
       let button = event.target.closest('button');
@@ -42,19 +42,36 @@ export default class Main {
     let containerElement = document.body.querySelector('[data-carousel-holder]');
     containerElement.append(carousel.elem);
 
-    let ribbon = new RibbonMenu(categories);
+    this.ribbonMenu = new RibbonMenu(categories);
     let container = document.querySelector('[data-ribbon-holder]');
-    container.append(ribbon.elem);
+    container.append(this.ribbonMenu.elem);
 
     let slider = document.querySelector('[data-slider-holder]')
-    let stepSlider = new StepSlider({
+    this.stepSlider = new StepSlider({
       steps: 5
     });
-    slider.append(stepSlider.elem);
+    slider.append(this.stepSlider.elem);
 
     document.querySelector('.products-grid').remove()
     let grid = document.querySelector('[data-products-grid-holder]')
-    let productGrid = new ProductsGrid(products);
-    grid.append(productGrid.elem);
+    this.productsGrid = new ProductsGrid(products);
+    grid.append(this.productsGrid.elem);
+
+    this.productsGrid.updateFilter({
+      noNuts: document.getElementById('nuts-checkbox').checked,
+      vegeterianOnly: document.getElementById('vegeterian-checkbox').checked,
+      maxSpiciness: this.stepSlider.value,
+      category: this.ribbonMenu.categories
+    });
+
+    document.querySelector('body').addEventListener('product-add', e => {
+      let chosenProduct = e.target.getAttribute('data-id')
+      products.forEach(element => {
+        if (element.id === chosenProduct) {
+          this.cart.addProduct(element)
+        }
+      })
+      console.log(e.target.getAttribute('data-id'))
+    })
   }
 }

@@ -18,11 +18,11 @@ export default class RibbonMenu {
     this.elem = document.createElement('DIV')
     this.elem.classList.add('ribbon')
     this.elem.innerHTML = `
-      <button class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
+      <button class="ribbon__arrow ribbon__arrow_left">
         <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>
       <nav class="ribbon__inner"></nav>
-      <button class="ribbon__arrow ribbon__arrow_right">
+      <button class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
         <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>
     `
@@ -46,20 +46,23 @@ export default class RibbonMenu {
     let scrollRight
     let clientWidth
     btnLeft.addEventListener('click', ()=> {
+      console.log(ribbonInner);
       ribbonInner.scrollBy(-350, 0)
-      scrollWidth = ribbonInner.scrollWidth
-      scrollLeft = ribbonInner.scrollLeft
-      clientWidth = ribbonInner.clientWidth;
-      scrollRight = scrollWidth - scrollLeft - clientWidth
-      if(scrollRight === 0) {
+      scrollLeft = ribbonInner.scrollLeft;
+      console.log(scrollLeft);
+      if(scrollLeft === 0) {
         btnRight.classList.toggle('ribbon__arrow_visible')
         btnLeft.classList.toggle('ribbon__arrow_visible')
       }
     })
     btnRight.addEventListener('click', ()=> {
       ribbonInner.scrollBy(350, 0)
-      scrollLeft = ribbonInner.scrollLeft;
-      if(scrollLeft < 1) {
+      scrollWidth = ribbonInner.scrollWidth
+      scrollLeft = ribbonInner.scrollLeft
+      clientWidth = ribbonInner.clientWidth;
+      scrollRight = scrollWidth - scrollLeft - clientWidth
+      console.log(scrollRight)
+      if(scrollRight === 0) {
         btnRight.classList.toggle('ribbon__arrow_visible')
         btnLeft.classList.toggle('ribbon__arrow_visible')
       }
@@ -67,7 +70,7 @@ export default class RibbonMenu {
   }
 
   selectItem() { this.elem.querySelector('.ribbon__inner').addEventListener('click',(ev) => {
-      ev.target.preventDefault
+      ev.target.preventDefault()
       const itemArr = Array.from(this.elem.querySelectorAll('.ribbon__item'))
       itemArr.forEach(item => item.classList.remove('ribbon__item_active'))
       ev.target.classList.add('ribbon__item_active')
