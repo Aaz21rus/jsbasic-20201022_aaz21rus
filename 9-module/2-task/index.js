@@ -71,7 +71,6 @@ export default class Main {
           this.cart.addProduct(element)
         }
       })
-      console.log(e.target.getAttribute('data-id'))
     })
   }
 }

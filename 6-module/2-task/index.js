@@ -5,6 +5,7 @@ export default class ProductCard {
     this.product = product
     this.elem = document.createElement('DIV')
     this.elem.classList.add('card')
+    this.elem.setAttribute('data-id', `${product.id}`)
     this.elem.insertAdjacentHTML('afterbegin',
     `
       <div class="card__top">
